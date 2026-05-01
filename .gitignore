@@ -32,3 +32,5 @@ storage/
 .vscode/
 tsconfig.tsbuildinfo
 tsconfig.tsbuildinfo
+.vercel
+.env*.local
