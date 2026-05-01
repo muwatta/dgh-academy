@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,8 +20,10 @@ import {
 } from "lucide-react";
 import SchoolNavbar from "@/components/school/SchoolNavbar";
 import SchoolFooter from "@/components/school/SchoolFooter";
+import { useSiteContent } from "@/lib/use-site-content";
 import {
-  schoolInfo,
+  schoolInfo as defaultSchoolInfo,
+  schoolHero as defaultSchoolHero,
   schoolStats,
   coreValues,
   academicPrograms,
@@ -90,6 +92,53 @@ const heroSlides = [
 ];
 
 export default function HomePage() {
+  const content = useSiteContent({
+    schoolInfo: defaultSchoolInfo,
+    schoolHero: defaultSchoolHero,
+    schoolHistory: "",
+    schoolVision: "",
+    schoolMission: "",
+  });
+
+  const heroSlides = useMemo(
+    () => [
+      {
+        id: 1,
+        title:
+          content.schoolHero.headline ||
+          "Welcome to Dr. Gambo Hamza Islamic Academy",
+        subtitle:
+          content.schoolHero.subheadline ||
+          "Where knowledge meets faith — nurturing tomorrow's leaders today.",
+        ctaText: content.schoolHero.ctaPrimary.label || "Explore Academy",
+        ctaLink: content.schoolHero.ctaPrimary.href || "/about",
+        image:
+          "https://res.cloudinary.com/dee5edoss/image/upload/v1775469629/enviroment_dgh_j4cvvi.jpg",
+      },
+      {
+        id: 2,
+        title: "Excellence in Education & Islamic Values",
+        subtitle:
+          "British & Nigerian curricula integrated with robust Islamic Education and ICT.",
+        ctaText: "Academic Programs",
+        ctaLink: "/academics",
+        image: "/images/library-prep.jpg",
+      },
+      {
+        id: 3,
+        title: "Enrol for 2026/2027 Session",
+        subtitle:
+          "Limited seats available for Nursery & Primary levels. Join our learning community.",
+        ctaText: "Admissions",
+        ctaLink: "/admissions",
+        image: "/images/ict-class.jpg",
+      },
+    ],
+    [content.schoolHero],
+  );
+
+  const { schoolInfo } = content;
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -97,7 +146,7 @@ export default function HomePage() {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroSlides.length]);
 
   const goToSlide = (index: number) => setCurrentSlide(index);
   const prevSlide = () =>

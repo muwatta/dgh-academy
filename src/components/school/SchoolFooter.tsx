@@ -16,8 +16,9 @@ import {
   Send,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { schoolInfo, schoolNav } from "@/data/school";
+import { schoolInfo as defaultSchoolInfo, schoolNav } from "@/data/school";
 import { sanitizePhoneNumber } from "@/lib/phone";
+import { useSiteContent } from "@/lib/use-site-content";
 
 export default function SchoolFooter() {
   const [email, setEmail] = useState("");
@@ -25,6 +26,19 @@ export default function SchoolFooter() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const emailValid = useMemo(() => /^\S+@\S+\.\S+$/.test(email), [email]);
+
+  const { schoolInfo } = useSiteContent({
+    schoolInfo: defaultSchoolInfo,
+    schoolHero: {
+      headline: "",
+      subheadline: "",
+      ctaPrimary: { label: "", href: "/" },
+      ctaSecondary: { label: "", href: "/" },
+    },
+    schoolHistory: "",
+    schoolVision: "",
+    schoolMission: "",
+  });
 
   const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

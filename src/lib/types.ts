@@ -11,6 +11,14 @@ export interface HeroContent {
   badge?: string;
 }
 
+export interface ContentOverrides {
+  schoolInfo?: Partial<SchoolInfo>;
+  schoolHero?: Partial<HeroContent>;
+  schoolHistory?: string;
+  schoolVision?: string;
+  schoolMission?: string;
+}
+
 export interface SchoolInfo {
   fullName: string;
   shortName: string;
@@ -63,6 +71,17 @@ export interface Stat {
   icon?: string;
 }
 
+export interface GalleryImage {
+  id: number;
+  src: string;
+  alt: string;
+  caption: string;
+  title: string;
+  description: string;
+  tag: string;
+  date: string;
+}
+
 // Future LMS-ready types
 export interface Course {
   id: string;
@@ -79,6 +98,27 @@ export interface Announcement {
   body: string;
   date: string;
   category: "school" | "madrasa" | "both";
+}
+
+export type ApplicationStatus = "New" | "In Review" | "Accepted" | "Rejected";
+
+export interface AdmissionApplication {
+  id: string;
+  section: "school" | "madrasa";
+  guardianName: string;
+  phone: string;
+  email?: string;
+  childName: string;
+  childDob?: string;
+  childAge?: string;
+  gender?: string;
+  classApplying?: string;
+  quranLevel?: string;
+  previousSchool?: string;
+  additionalInfo?: string;
+  additionalNotes?: string;
+  status: ApplicationStatus;
+  submittedAt: string;
 }
 
 export interface EnquiryForm {

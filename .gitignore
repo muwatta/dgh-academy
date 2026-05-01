@@ -10,7 +10,7 @@ out/
 
 # env files
 .env
-
+.env.local
 # logs
 npm-debug.log*
 yarn-debug.log*
@@ -24,6 +24,9 @@ public/*.jpg
 public/*.png
 public/*.webp
 public/*.svg
+
+# Server-side persisted admin data
+storage/
 
 # Also ignore any other assets you don't want to commit
 .vscode/

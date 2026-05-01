@@ -127,7 +127,7 @@ export default function MadrasaAboutPage() {
               />
             </div>
             <div className="font-bold text-[var(--madrasa-primary)] text-xl mb-1">
-              {madrasaMallam.name}
+              {madrasaMallam.name} 
             </div>
             <div className="text-sm text-[var(--madrasa-text-muted)] mb-6">
               {madrasaMallam.position}

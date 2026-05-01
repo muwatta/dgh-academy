@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Phone, Mail, Sun, Moon } from "lucide-react";
-import { schoolNav, schoolInfo } from "@/data/school";
+import { schoolNav, schoolInfo as defaultSchoolInfo } from "@/data/school";
+import { useSiteContent } from "@/lib/use-site-content";
 
 export default function SchoolNavbar() {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,19 @@ export default function SchoolNavbar() {
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const { schoolInfo } = useSiteContent({
+    schoolInfo: defaultSchoolInfo,
+    schoolHero: {
+      headline: "",
+      subheadline: "",
+      ctaPrimary: { label: "", href: "/" },
+      ctaSecondary: { label: "", href: "/" },
+    },
+    schoolHistory: "",
+    schoolVision: "",
+    schoolMission: "",
+  });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
