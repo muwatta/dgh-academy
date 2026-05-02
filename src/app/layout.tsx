@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Amiri, Nunito_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -244,6 +245,7 @@ export default function RootLayout({
       </head>
       <body className="font-nunito antialiased">
         {children}
+        <SpeedInsights/>
         <WhatsAppButton />
         <Analytics />
       </body>
