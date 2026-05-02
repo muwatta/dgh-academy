@@ -6,12 +6,15 @@ const GALLERY_KEY = "dgh:gallery";
 const CONTENT_KEY = "dgh:content";
 
 const hasRedis = !!(
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
 );
 
 function getRedis(): Redis | null {
   if (!hasRedis) return null;
-  return Redis.fromEnv();
+  return new Redis({
+    url: process.env.KV_REST_API_URL!,
+    token: process.env.KV_REST_API_TOKEN!,
+  });
 }
 
 export const getStoredGallery = async (): Promise<GalleryImage[]> => {
@@ -30,10 +33,8 @@ export const setStoredGallery = async (items: GalleryImage[]) => {
     const redis = getRedis();
     if (!redis) return;
     await redis.set(GALLERY_KEY, items);
-  } catch {
-  }
+  } catch {}
 };
-
 
 export const getStoredContent = async (): Promise<ContentOverrides> => {
   try {
@@ -51,6 +52,5 @@ export const setStoredContent = async (content: ContentOverrides) => {
     const redis = getRedis();
     if (!redis) return;
     await redis.set(CONTENT_KEY, content);
-  } catch {
-  }
+  } catch {}
 };
