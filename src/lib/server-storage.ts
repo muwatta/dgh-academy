@@ -1,41 +1,40 @@
+import { Redis } from "@upstash/redis";
 import type { ContentOverrides, GalleryImage } from "@/lib/types";
 import { DEFAULT_GALLERY_IMAGES } from "@/lib/content-store";
 
 const GALLERY_KEY = "dgh:gallery";
 const CONTENT_KEY = "dgh:content";
 
-// Only use KV if credentials are available
-const hasKV = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+const hasRedis = !!(
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+);
 
-async function kvGet<T>(key: string): Promise<T | null> {
-  if (!hasKV) return null;
-  const { kv } = await import("@vercel/kv");
-  return kv.get<T>(key);
-}
-
-async function kvSet(key: string, value: unknown): Promise<void> {
-  if (!hasKV) return;
-  const { kv } = await import("@vercel/kv");
-  await kv.set(key, value);
+function getRedis(): Redis | null {
+  if (!hasRedis) return null;
+  return Redis.fromEnv();
 }
 
 // ── Gallery ──────────────────────────────────────────────────
 
 export const getStoredGallery = async (): Promise<GalleryImage[]> => {
   try {
-    const stored = await kvGet<GalleryImage[]>(GALLERY_KEY);
+    const redis = getRedis();
+    if (!redis) return DEFAULT_GALLERY_IMAGES;
+    const stored = await redis.get<GalleryImage[]>(GALLERY_KEY);
     if (Array.isArray(stored)) return stored;
   } catch {
-    // fall through to defaults
+    // fall through
   }
   return DEFAULT_GALLERY_IMAGES;
 };
 
 export const setStoredGallery = async (items: GalleryImage[]) => {
   try {
-    await kvSet(GALLERY_KEY, items);
+    const redis = getRedis();
+    if (!redis) return;
+    await redis.set(GALLERY_KEY, items);
   } catch {
-    // KV not available — saves will not persist on server
+    // silently fail locally
   }
 };
 
@@ -43,18 +42,22 @@ export const setStoredGallery = async (items: GalleryImage[]) => {
 
 export const getStoredContent = async (): Promise<ContentOverrides> => {
   try {
-    const stored = await kvGet<ContentOverrides>(CONTENT_KEY);
+    const redis = getRedis();
+    if (!redis) return {};
+    const stored = await redis.get<ContentOverrides>(CONTENT_KEY);
     if (typeof stored === "object" && stored !== null) return stored;
   } catch {
-    // fall through to empty
+    // fall through
   }
   return {};
 };
 
 export const setStoredContent = async (content: ContentOverrides) => {
   try {
-    await kvSet(CONTENT_KEY, content);
+    const redis = getRedis();
+    if (!redis) return;
+    await redis.set(CONTENT_KEY, content);
   } catch {
-    // KV not available
+    // silently fail locally
   }
 };
