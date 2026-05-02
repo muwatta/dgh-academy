@@ -14,8 +14,6 @@ function getRedis(): Redis | null {
   return Redis.fromEnv();
 }
 
-// ── Gallery ──────────────────────────────────────────────────
-
 export const getStoredGallery = async (): Promise<GalleryImage[]> => {
   try {
     const redis = getRedis();
@@ -23,7 +21,6 @@ export const getStoredGallery = async (): Promise<GalleryImage[]> => {
     const stored = await redis.get<GalleryImage[]>(GALLERY_KEY);
     if (Array.isArray(stored)) return stored;
   } catch {
-    // fall through
   }
   return DEFAULT_GALLERY_IMAGES;
 };
@@ -34,11 +31,9 @@ export const setStoredGallery = async (items: GalleryImage[]) => {
     if (!redis) return;
     await redis.set(GALLERY_KEY, items);
   } catch {
-    // silently fail locally
   }
 };
 
-// ── Content ──────────────────────────────────────────────────
 
 export const getStoredContent = async (): Promise<ContentOverrides> => {
   try {
@@ -47,7 +42,6 @@ export const getStoredContent = async (): Promise<ContentOverrides> => {
     const stored = await redis.get<ContentOverrides>(CONTENT_KEY);
     if (typeof stored === "object" && stored !== null) return stored;
   } catch {
-    // fall through
   }
   return {};
 };
@@ -58,6 +52,5 @@ export const setStoredContent = async (content: ContentOverrides) => {
     if (!redis) return;
     await redis.set(CONTENT_KEY, content);
   } catch {
-    // silently fail locally
   }
 };
