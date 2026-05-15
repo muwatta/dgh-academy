@@ -38,6 +38,9 @@ export default function ContentEditor() {
   const [importError, setImportError] = useState<string | null>(null);
   const [saveStatus, setSaveStatus] = useState<"idle" | "dirty" | "saving" | "saved" | "error">("idle");
   const [activeTab, setActiveTab] = useState<ContentTab>("schoolInfo");
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     const fetchContent = async () => {

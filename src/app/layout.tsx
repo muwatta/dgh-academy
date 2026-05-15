@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Amiri, Nunito_Sans } from "next/font/google";
+import { Amiri, Nunito } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import "./globals.css";
@@ -11,7 +11,7 @@ const amiri = Amiri({
   display: "swap",
 });
 
-const nunitoSans = Nunito_Sans({
+const nunito = Nunito({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700", "800"],
   variable: "--font-nunito",
@@ -81,7 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${amiri.variable} ${nunitoSans.variable} theme-light`}
+      className={`${amiri.variable} ${nunito.variable} theme-light`}
     >
       <body className="font-nunito antialiased">
         {children}
