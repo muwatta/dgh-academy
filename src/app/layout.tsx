@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Amiri, Nunito } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { Amiri, Nunito_Sans } from "next/font/google";import { Analytics } from "@vercel/analytics/next";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import "./globals.css";
 
@@ -11,7 +10,7 @@ const amiri = Amiri({
   display: "swap",
 });
 
-const nunito = Nunito({
+const nunito = Nunito_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700", "800"],
   variable: "--font-nunito",
@@ -19,7 +18,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.dghacademy.com"),
+  metadataBase: new URL("https://www.dghacademy.com.ng"),
   title: {
     default: "Dr. Gambo Hamza Islamic Academy | DGHIA Jos",
     template: "%s | DGHIA",
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_NG",
-    url: "https://www.dghacademy.com",
+    url: "https://www.dghacademy.com.ng",
     siteName: "DGHIA",
     title: "Dr. Gambo Hamza Islamic Academy | DGHIA Jos",
     description:
