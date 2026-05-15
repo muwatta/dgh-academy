@@ -36,7 +36,9 @@ export default function ContentEditor() {
   });
   const [message, setMessage] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "dirty" | "saving" | "saved" | "error">("idle");
+  const [saveStatus, setSaveStatus] = useState<
+    "idle" | "dirty" | "saving" | "saved" | "error"
+  >("idle");
   const [activeTab, setActiveTab] = useState<ContentTab>("schoolInfo");
   const handleReload = () => {
     window.location.reload();
@@ -160,7 +162,9 @@ export default function ContentEditor() {
         throw new Error("Unable to reset content on server.");
       }
 
-      setMessage("Content overrides cleared and defaults restored on the server.");
+      setMessage(
+        "Content overrides cleared and defaults restored on the server.",
+      );
       setSaveStatus("saved");
     } catch {
       setMessage("Unable to reset content on the server. Please try again.");
@@ -231,26 +235,29 @@ export default function ContentEditor() {
               save overrides directly to the server.
             </p>
             <p className="mt-4 text-sm text-slate-500">
-              Status: <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                saveStatus === "idle"
-                  ? "bg-slate-100 text-slate-700"
-                  : saveStatus === "dirty"
-                  ? "bg-amber-100 text-amber-800"
-                  : saveStatus === "saving"
-                  ? "bg-blue-100 text-blue-800"
-                  : saveStatus === "saved"
-                  ? "bg-emerald-100 text-emerald-800"
-                  : "bg-rose-100 text-rose-800"
-              }`}>
+              Status:{" "}
+              <span
+                className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                  saveStatus === "idle"
+                    ? "bg-slate-100 text-slate-700"
+                    : saveStatus === "dirty"
+                      ? "bg-amber-100 text-amber-800"
+                      : saveStatus === "saving"
+                        ? "bg-blue-100 text-blue-800"
+                        : saveStatus === "saved"
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-rose-100 text-rose-800"
+                }`}
+              >
                 {saveStatus === "idle"
                   ? "Saved"
                   : saveStatus === "dirty"
-                  ? "Unsaved changes"
-                  : saveStatus === "saving"
-                  ? "Saving..."
-                  : saveStatus === "saved"
-                  ? "Saved"
-                  : "Save failed"}
+                    ? "Unsaved changes"
+                    : saveStatus === "saving"
+                      ? "Saving..."
+                      : saveStatus === "saved"
+                        ? "Saved"
+                        : "Save failed"}
               </span>
             </p>
           </div>

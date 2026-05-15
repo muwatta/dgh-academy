@@ -1,21 +1,7 @@
 import type { Metadata } from "next";
-import { Amiri, Nunito_Sans } from "next/font/google";import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import "./globals.css";
-
-const amiri = Amiri({
-  subsets: ["latin", "arabic"],
-  weight: ["400", "700"],
-  variable: "--font-amiri",
-  display: "swap",
-});
-
-const nunito = Nunito_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "600", "700", "800"],
-  variable: "--font-nunito",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dghacademy.com.ng"),
@@ -78,11 +64,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${amiri.variable} ${nunito.variable} theme-light`}
-    >
-      <body className="font-nunito antialiased">
+    <html lang="en">
+      <body className="antialiased">
         {children}
         <WhatsAppButton />
         <Analytics />
